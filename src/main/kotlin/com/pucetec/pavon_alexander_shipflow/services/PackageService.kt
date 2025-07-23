@@ -14,7 +14,6 @@ import com.pucetec.pavon_alexander_shipflow.repositories.PackageRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
-import java.util.*
 
 @Service
 class PackageService(
@@ -42,7 +41,6 @@ class PackageService(
             description = request.description.trim(),
             cityFrom = origin,
             cityTo = destination,
-            trackingId = UUID.randomUUID().toString(),
             estimatedDeliveryDate = LocalDateTime.now().plusDays(5),
             events = listOf()
         )
@@ -65,15 +63,19 @@ class PackageService(
         return packageRepository.findAll()
     }
 
-    fun getById(id: Long): Package {
-        return packageRepository.findById(id)
-            .orElseThrow { ResourceNotFoundException("Paquete con ID $id no encontrado") }
+
+    fun getByTrackingId(trackingId: String): Package {
+        return packageRepository.findByTrackingId(trackingId)
+            ?: throw ResourceNotFoundException("Paquete con trackingId $trackingId no encontrado")
     }
 
+
     @Transactional
-    fun updateStatus(id: Long, request: UpdatePackageStatusRequest): PackageEvent {
-        val packageEntity = getById(id)
-        val currentStatus: Status? = packageEntity.events.maxByOrNull { it.createdAt }?.status
+    fun updateStatusByTrackingId(trackingId: String, request: UpdatePackageStatusRequest): PackageEvent {
+        val packageEntity = packageRepository.findByTrackingId(trackingId)
+            ?: throw ResourceNotFoundException("Package with trackingId $trackingId not found")
+
+        val currentStatus = packageEntity.events.maxByOrNull { it.createdAt }?.status
 
         if (!isValidTransition(currentStatus, request.status)) {
             throw InvalidStatusTransitionException("Transición inválida de estado: $currentStatus → ${request.status}")
@@ -83,8 +85,9 @@ class PackageService(
         return packageEventRepository.save(event)
     }
 
-    fun getPackageWithEvents(id: Long): PackageEventHistoryResponse {
-        val packageEntity = getById(id)
+
+    fun getPackageWithEventsByTrackingId(trackingId: String): PackageEventHistoryResponse {
+        val packageEntity = getByTrackingId(trackingId)
 
         val summary = PackageSummaryResponse(
             id = packageEntity.id,

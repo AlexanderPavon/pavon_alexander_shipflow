@@ -32,26 +32,26 @@ class PackageController(
         return ResponseEntity.ok(all)
     }
 
-    @GetMapping("/{id}")
-    fun getPackageById(@PathVariable id: Long): ResponseEntity<PackageResponse> {
-        val pkg = packageService.getById(id)
+    @GetMapping("/{trackingId}")
+    fun getPackageByTrackingId(@PathVariable trackingId: String): ResponseEntity<PackageResponse> {
+        val pkg = packageService.getByTrackingId(trackingId)
         return ResponseEntity.ok(packageMapper.toResponse(pkg))
     }
 
-    @PutMapping("/{$ID}/status")
-    fun updatePackageStatus(
-        @PathVariable id: Long,
+    @PutMapping("/{trackingId}/status")
+    fun updatePackageStatusByTrackingId(
+        @PathVariable trackingId: String,
         @RequestBody request: UpdatePackageStatusRequest
     ): ResponseEntity<PackageEventResponse> {
-        val event = packageService.updateStatus(id, request)
+        val event = packageService.updateStatusByTrackingId(trackingId, request)
         return ResponseEntity.ok(packageEventMapper.toResponse(event))
     }
 
-    @GetMapping("/{$ID}/events")
-    fun getEventHistory(@PathVariable id: Long): ResponseEntity<PackageEventHistoryResponse> {
-        val response = packageService.getPackageWithEvents(id)
-        return ResponseEntity.ok(response)
-    }
+@GetMapping("/{trackingId}/events")
+fun getEventHistoryByTrackingId(@PathVariable trackingId: String): ResponseEntity<PackageEventHistoryResponse> {
+    val response = packageService.getPackageWithEventsByTrackingId(trackingId)
+    return ResponseEntity.ok(response)
+}
 
     companion object {
         private const val ID = "id"

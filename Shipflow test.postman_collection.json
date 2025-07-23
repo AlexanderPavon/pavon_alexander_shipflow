@@ -64,7 +64,7 @@
 			"response": []
 		},
 		{
-			"name": "Get Package By Id",
+			"name": "Get Package By TrackingId",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -72,7 +72,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/shipflow/packages/1",
+					"raw": "http://localhost:8080/api/shipflow/packages/{trackingId}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -82,7 +82,7 @@
 						"api",
 						"shipflow",
 						"packages",
-						"1"
+						"{trackingId}"
 					]
 				}
 			},
@@ -106,7 +106,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/shipflow/packages/1/status",
+					"raw": "http://localhost:8080/api/shipflow/packages/{trackingId}/status",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -116,7 +116,7 @@
 						"api",
 						"shipflow",
 						"packages",
-						"1",
+						"{trackingId}",
 						"status"
 					]
 				}
@@ -132,7 +132,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/shipflow/packages/1/events",
+					"raw": "http://localhost:8080/api/shipflow/packages/{trackingId}/events",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -142,7 +142,7 @@
 						"api",
 						"shipflow",
 						"packages",
-						"1",
+						"{trackingId}",
 						"events"
 					]
 				}

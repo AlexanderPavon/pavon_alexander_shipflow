@@ -34,13 +34,13 @@
 
 ## 📦 Endpoints principales
 
-| Recurso           | Método  | Ruta                                 | Descripción                                 |
-|-------------------|---------|--------------------------------------|---------------------------------------------|
-| **Paquetes**      | GET     | `/api/shipflow/packages`             | Obtener todos los paquetes                  |
-|                   | GET     | `/api/shipflow/packages/{id}`        | Obtener un paquete por ID                   |
-|                   | POST    | `/api/shipflow/packages`             | Registrar un nuevo paquete                  |
-|                   | PUT     | `/api/shipflow/packages/{id}/status` | Actualizar el estado del paquete (evento)   |
-|                   | GET     | `/api/shipflow/packages/{id}/events` | Obtener historial de eventos de un paquete  |
+| Recurso      | Método  | Ruta                                         | Descripción                                |
+|--------------|---------|----------------------------------------------|--------------------------------------------|
+| **Paquetes** | GET     | `/api/shipflow/packages`                     | Obtener todos los paquetes                 |
+|              | GET     | `/api/shipflow/packages/{trackingId}`        | Obtener un paquete por TrackingId          |
+|              | POST    | `/api/shipflow/packages`                     | Registrar un nuevo paquete                 |
+|              | PUT     | `/api/shipflow/packages/{trackingId}/status` | Actualizar el estado del paquete (evento)  |
+|              | GET     | `/api/shipflow/packages/{trackingId}/events` | Obtener historial de eventos de un paquete |
 
 ---
 
@@ -97,7 +97,10 @@ docker-compose up
 
 ## Paso 4: Pruebas con Postman
 
-En el proyecto se incluye la colección `ShipFlow test.postman_collection.json` que puedes importar en Postman. Contiene todas las peticiones necesarias para probar los endpoints: creación de paquetes, cambio de estado, y consulta de eventos.
+En el proyecto se incluye la colección `ShipFlow test.postman_collection.json`, la cual puedes importar en Postman. Esta colección contiene todas las peticiones necesarias para probar los endpoints del sistema: creación de envíos, cambio de estado y consulta del historial de eventos.
+
+#### ⚠️ Importante 
+En las rutas que contienen {trackingId}, debes reemplazar manualmente ese valor con el tracking ID real que se genera al crear un envío. Copia ese ID desde la respuesta del endpoint de creación y pégalo directamente en la URL del request correspondiente en Postman.
 
 ---
 
